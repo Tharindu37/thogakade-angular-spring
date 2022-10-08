@@ -2,16 +2,17 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Customer} from "../dto/Customer";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
-
+  target_url=environment.baseUrl;
   constructor(private http:HttpClient) { }
 
   public createUser(name:string,address:string,salary:number):Observable<any>{
-    return this.http.post('http://localhost:8080/api/v1/customer',{
+    return this.http.post(this.target_url+'customer',{
       name,
       address,
       salary
@@ -19,15 +20,15 @@ export class CustomerService {
   }
 
   public getAllCustomers():Observable<Customer>{
-    return this.http.get<Customer>('http://localhost:8080/api/v1/customer/all');
+    return this.http.get<Customer>(this.target_url+'customer/all');
   }
 
   public deleteCustomer(id:number):Observable<any>{
-    return this.http.delete('http://localhost:8080/api/v1/customer/'+id);
+    return this.http.delete(this.target_url+'customer/'+id);
   }
 
   public updateUser(id:number,name:string,address:string,salary:number){
-    return this.http.put('http://localhost:8080/api/v1/customer',{
+    return this.http.put(this.target_url+'customer',{
       id,
       name,
       address,
@@ -36,7 +37,7 @@ export class CustomerService {
   }
 
   public findCustomer(id:number):Observable<any>{
-    return this.http.get(`http://localhost:8080/api/v1/customer/${id}`);
+    return this.http.get(`${this.target_url}customer/${id}`);
   }
 
 }
